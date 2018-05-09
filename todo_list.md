@@ -14,3 +14,13 @@
 3) Requirements (functional and non-functional)
 4) Scenarios
 5) Application architecture
+
+Ref: marking scheme for meeting session 1
+` Points to be discussed/assessed:
+- Has the group established an effective communication channel for group work? (e.g., messaging, code repository)
+- Has the group established the roles and tasks necessary for the group work?
+- Has the group identified datasets to use the mashup?
+- Has the group identified the use-case scenario for the mashup application? (i.e., what is
+the mashup going to show for the users?)
+- Has the group identified the (high-level) system architecture and components necessary
+for the group work? (not to be detailed, high-level plan)`
