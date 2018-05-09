@@ -6,7 +6,7 @@
 ### finish <a href='https://docs.google.com/document/d/1pFJxyPooNLH7DL4q2HOHJR8b19sljTzFSCzvS3TkjKg/edit?usp=sharing'>document draft</a>
 
 
-## Agenda Web, 09/May
+## Agenda Wed, 09/May
 
 ### Finish design document by doing the following:
 1) Finish datasets
