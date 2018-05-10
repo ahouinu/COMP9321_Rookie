@@ -24,3 +24,12 @@ Ref: marking scheme for meeting session 1
 the mashup going to show for the users?)
 - Has the group identified the (high-level) system architecture and components necessary
 for the group work? (not to be detailed, high-level plan)`
+
+
+## After first meeting, 10/May
+### Topic: location info service for students
+### Categories: Accommodation, crime statistics, POIs
+### TODO:
+1) Build APIs (for 3 categories) @LY @MS
+2) Build glue and app skeletons @TC @MH
+### Deadline 13/May 23:59
