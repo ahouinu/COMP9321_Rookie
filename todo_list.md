@@ -1,4 +1,4 @@
-# Todo list week 10, before first meeting (expected to be done before Thu)
+# Todo list week 10, after first meeting (expected to be done before wk11)
 
 ## Agenda Sun, 06/May
 ### decide topic
