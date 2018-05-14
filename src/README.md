@@ -32,3 +32,7 @@ The main function to implement the web crawler. Beatifulsoup is a power python p
 
 ###inter_check(data)
 This function is to intergrate the input of the users and find the most available results to response. The parameter 'data' is the whole source of the initial result divided by description. This function returns the rid of the property results.
+
+###run(user_input)
+
+This is the main function and where the interaction between poi.py and glue.py happends. The input has been split into serveral parameters to do the query. Developer should figure out the data format before extend to modify the program.
