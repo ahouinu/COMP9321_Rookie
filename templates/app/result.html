@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="'UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- Bootstrap Stylesheet-->
+    <!--<link rel="stylesheet" href="css/bootstrap.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Suburb Information</title>
+    <!--<style>-->
+        <!--.col-center-block {-->
+            <!--float: none;-->
+            <!--display: block;-->
+            <!--margin-left: auto;-->
+            <!--margin-right: auto;-->
+        <!--}-->
+    <!--</style>-->
+</head>
+<body>
+
+<div class="container">
+    <h1>Suburb Information</h1>
+    <p>Switch different tabs to see contents</p>
+    <div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#overview" aria-controls="overview" aria-selected="true">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#crime" aria-controls="crime" aria-selected="false">Crime</a></li>
+            <li>
+                <a class="nav-link" data-toggle="tab" href="#acc" aria-controls="crime" aria-selected="false">Accommodation</a>
+            </li>
+            <li>
+                <a class="nav-link" data-toggle="tab" href="#poi" aria-controls="poi", aria-selected="false">POI</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content" id="myTabContent">
+        <div id="overview" class="tab-pane fade show active" aria-labelledby="home-tab">
+            <h3 class="col-center-block">Overview</h3>
+            <p>{suburb_name}: some description goes here...</p>
+            <!--<p>Crime stats goes here...</p>-->
+        </div>
+
+        <div id="crime" class="tab-pane fade" aria-labelledby="crime-tab">
+            <h3 class="col-center-block">Crime</h3>
+            <p>Accommodation details goes here...</p>
+        </div>
+
+        <div id="acc" class="tab-pane fade" aria-labelledby="acc-tab">
+            <h3 class="col-center-block">Accommodation</h3>
+            <p>Accommodation details goes here...</p>
+        </div>
+
+        <div id="poi" class="tab-pane fade" aria-labelledby="poi-tab">
+            <h3 class="col-center-block">Places of Interests (POIs)</h3>
+            <p>POI details goes here...</p>
+            <p>Here's a button linked to Google Map</p>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Optional JavaScript -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

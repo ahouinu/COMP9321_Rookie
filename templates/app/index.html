@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="'UTF-8">
+    <!-- Bootstrap Stylesheet-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Rookie's Homepage</title>
+    <style>
+        .col-center-block {
+            float: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="col-md-8 col-center-block">
+    <h1 class="text-center">Suburb Information Search System</h1>
+</div>
+<div class="col-md-5 col-center-block input-group" style="margin-top: 120px; position: relative">
+    <form method="post" action="{{url_for('app.search')}}">
+        <table>
+            <tr>
+                <td><h2 class="col-center-block">Search suburb here</h2></td>
+            </tr>
+            <tr style="margin-top: 24px">
+                <td><input type="text" name="suburb" class="form-control" placeholder="Example: Kingsford"></td>
+                <td><input type="submit" value="submit" style="margin-left: 12px"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
