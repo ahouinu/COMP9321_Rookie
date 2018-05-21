@@ -24,9 +24,13 @@ def search():
     pass
 
 
-@bp.route('/suburb', methods=['GET'])
-def show_results():
-
-    return render_template('app/result.html')
+@bp.route('/suburb/<suburb>', methods=['GET'])
+def show_results(suburb):
+    '''
+    render result html page
+    :param suburb: a Suburb object containing all the information
+    :return:
+    '''
+    return render_template('app/result.html', suburb=suburb)
 
 
