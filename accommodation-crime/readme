@@ -1,0 +1,53 @@
+说明：
+
+Accommodation（已导入Mongodb）
+
+from mongoengine import StringField, IntField, Document, EmbeddedDocument, ListField, EmbeddedDocumentField
+from mongoengine import connect
+import xlrd
+
+connect(host = "mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
+
+class Bedroom_number(EmbeddedDocument):
+    total = StringField(required=True)
+    not_specified = StringField(required=True)
+    one_bedroom = StringField(required=True)
+    two_bedrooms = StringField(required=True)
+    three_bedrooms = StringField(required=True)
+    four_or_more_bedrooms = StringField(required=True)
+    bedsitter = StringField(required=True)
+    
+ class Accommodation(Document):
+    id = IntField(required=True, primary_key=True)
+    suburb = StringField(required=True)
+    dewelling_type = StringField(required=True)
+    bedroom_number = ListField(required=True)
+    
+通过 调用Accommodation.objects 可直接使用，输出格式为json
+
+
+postcode（已导入Mongodb）
+
+connect(host = "mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
+
+class Postcode(Document):
+    id = IntField(required=True, primary_key=True)
+    suburb = StringField(required=True)
+    postcode = StringField(required=True)
+
+通过 调用Postcode.objects 可直接使用，输出格式为json
+
+因为这两个部分数据是固定不变的，所以我把数据存放在Mongodb中
+
+crime
+
+因为这部分的数据无法通过一个表就能都找到所有需要的数据，所以我设计是
+将 搜索的suburb 作为参数（filename = suburb+'.xlsx'）， 使用 test_import_crime.py 中 
+自动下载(get_and_save_lga(suburb)) 找到需求数据并返回json格式(crime_excel_to_json(filename)) 自动删除(delete_excel(filename))
+
+class Crime(Document):
+    crime_type = StringField(required=True)    对应的 17种犯罪 排名最靠前的（min rank value） crime类型名
+    trend_24month = StringField(required=True)   对应的 17种犯罪 在24个月中 可能最大增长的 犯罪类型名（可能没有， 没有返回 None）
+    trend_60month = StringField(required=True)   对应的 17种犯罪 在60个月中 可能最大增长的 犯罪类型名（可能没有， 没有返回 None）
+
+
