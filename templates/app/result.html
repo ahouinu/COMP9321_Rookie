@@ -43,7 +43,13 @@
             <p>From Wikipedia</p>
             <p>{{suburb.wiki}}.</p>
             <div>
-                <p>Weather Section</p>
+                <p>Weather Section (from WeatherWidget.io)</p>
+                <div>
+                    <a class="weatherwidget-io" href="#" data-label_1="{{suburb.name}}" data-label_2="WEATHER" data-theme="original" >{{suburb.name}} WEATHER</a>
+                        <script>
+                        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                        </script>
+                </div>
             </div>
             <div>
                 <p>Photo Section</p>

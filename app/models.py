@@ -2,7 +2,7 @@ class Suburb:
 
     _instances = {}
 
-    def __init__(self, name, crime_stats, acc_stats, poi, wiki):
+    def __init__(self, name, crime_stats, acc_stats, poi, wiki=None):
         # Test
         self.name = name
         self.crime_stats = crime_stats
