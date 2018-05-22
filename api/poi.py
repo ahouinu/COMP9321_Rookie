@@ -5,6 +5,7 @@ http://maps.six.nsw.gov.au/arcgis/rest/services/public/NSW_POI/MapServer/find?se
 '''
 
 import requests
+
 from bs4 import BeautifulSoup
 from collections import Counter
 # check the url
@@ -13,14 +14,28 @@ def check_link(url):
         r = requests.get(url)
         r.raise_for_status()
         r.encoding = r.apparent_encoding
-        return r.txt
+        # print(r.text)
+        return r.text
     except:
         print('can not reach the URL')
+
+
+# def get_content2(item_list, url):
+#     soup = BeautifulSoup(open(url))
+#     item = {}
+#
+#     flag = 'key'
+#
+#     for ul in soup.ul:
+#         print(ul, '+++++++++++')
+#
+#     item_list.append(item)
+
 
 #get the resource
 def get_content(item_list, src):
     flag = 'key'
-    soup = BeautifulSoup(src, 'lxml')
+    soup = BeautifulSoup(src, 'html.parser')
     collection = soup.find_all('ul')
 
     if not collection:
@@ -28,17 +43,26 @@ def get_content(item_list, src):
 
     for ul in collection:
         item = {}
+        countline = 0
         for br in ul:
-            '''every br element has two i element'''
-            for i in br:
-                if flag == 'key':
-                    key = i.string
-                    flag = 'value'
-                elif flag == 'value':
-                    value = i.string
-                    item[key] = value
-                    flag = 'key'
+            if countline == 0:
+                countline += 1
+                continue
+            if countline == 1 and br:
+                for i in br:
+                    key = i
+                    print(key)
+                    countline += 1
+                continue
+            if countline == 2:
+                item[key] = br
+                countline += 1
+                continue
+            if countline == 3:
+                countline = 0
+                continue
         item_list.append(item)
+
 
 def inter_check(data):
     '''The format of data looks like
@@ -67,15 +91,24 @@ The input of the user should be split by space
 
 '''
 def run(user_input):
+
+
+
     condition_list = user_input.split(' ')
+
+
+    url = "http://maps.six.nsw.gov.au/arcgis/rest/services/public/NSW_POI/MapServer/find?searchText="+ condition_list[0] + "&contains=true&searchFields=&sr=&layers=0&layerDefs=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&dynamicLayers=&returnZ=false&returnM=false&gdbVersion=&f=html"
+
+    print(url)
     point_list = []
     inter_check_list = []
-    url = ''
+    
     resource = check_link(url)
 
     get_content(point_list, resource)
-
+    # get_content2(point_list, resource)
     if len(condition_list) == 1:
+        print(point_list)
         return point_list
     elif len(condition_list) > 1:
         data_combine = []
@@ -90,3 +123,7 @@ def run(user_input):
             if data['Rid'] in rid_list:
                 inter_check_list.append(data)
         return inter_check_list
+
+def get_info(input):
+    # return a list contains several dictionaries which fit the requirement
+    run(input)
