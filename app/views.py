@@ -52,6 +52,7 @@ def search():
     acc = glue.get_accommodation(suburb_name)
     print(acc)
     poi = glue.get_poi(suburb_name)
-    suburb_obj = Suburb(suburb_name, crime, acc, poi)
+    wiki = glue.get_wiki_info(suburb_name)
+    suburb_obj = Suburb(suburb_name, crime, acc, poi, wiki)
 
     return redirect(url_for('.show_results', suburb_name=suburb_name))

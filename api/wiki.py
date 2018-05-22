@@ -8,4 +8,4 @@ def get_info(suburb):
 
     return p.content
 
-print(get_info('Kingsford'))
+# print(get_info('Kingsford'))
