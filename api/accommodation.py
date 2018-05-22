@@ -123,7 +123,7 @@ def get_info(suburb):
     _override = 'Sydney'
     suburb = _override
     for i in Accommodation.objects:
-        if i.suburb == suburb:
+        if i.suburb.lower() == suburb.lower():
             spec_info = {}
             spec_info.update({'dewelling_type ':i.dewelling_type})
             for j in i.bedroom_number:
