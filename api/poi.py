@@ -51,7 +51,7 @@ def get_content(item_list, src):
             if countline == 1 and br:
                 for i in br:
                     key = i
-                    print(key)
+                    # print(key)
                     countline += 1
                 continue
             if countline == 2:
@@ -99,7 +99,7 @@ def run(user_input):
 
     url = "http://maps.six.nsw.gov.au/arcgis/rest/services/public/NSW_POI/MapServer/find?searchText="+ condition_list[0] + "&contains=true&searchFields=&sr=&layers=0&layerDefs=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&dynamicLayers=&returnZ=false&returnM=false&gdbVersion=&f=html"
 
-    print(url)
+    # print(url)
     point_list = []
     inter_check_list = []
     
@@ -108,7 +108,7 @@ def run(user_input):
     get_content(point_list, resource)
     # get_content2(point_list, resource)
     if len(condition_list) == 1:
-        print(point_list)
+        # print(point_list)
         return point_list
     elif len(condition_list) > 1:
         data_combine = []
@@ -126,4 +126,9 @@ def run(user_input):
 
 def get_info(input):
     # return a list contains several dictionaries which fit the requirement
-    run(input)
+
+    # run(input)
+    return run(input)
+
+
+# print(get_info('Sydney'))
