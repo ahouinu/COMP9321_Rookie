@@ -5,7 +5,7 @@ Flask application user interface
 
 from flask import request, render_template, Flask, redirect, url_for, make_response
 from flask import Blueprint
-import flask_restful
+# import flask_restful
 
 bp = Blueprint('app', __name__, url_prefix='')
 # app = Flask(__name__)
