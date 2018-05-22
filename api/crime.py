@@ -45,7 +45,7 @@ def get_and_save_lga(suburb):
     '''
     url = "http://www.bocsar.nsw.gov.au/Documents/RCS-Annual/" + suburb + "LGA.xlsx"
     r = requests.get(url)
-    with open(suburb + ".xlsx", 'wb') as f:
+    with open(prefix + suburb + ".xlsx", 'wb') as f:
         f.write(r.content)
 
 
@@ -92,6 +92,7 @@ def crime_excel_to_json(filename):
                   'trend_60month_crime_type': db_json.trend_60month}
     return dictionary
 
+
 def delete_excel(filename):
     '''
     删除已存在的crime excle表
@@ -101,14 +102,13 @@ def delete_excel(filename):
     if os.path.isfile(filename):
         os.remove(filename)
 
+
 def show_info(suburb):
     get_and_save_lga(suburb)
     filename = suburb + '.xlsx'
     dictionary = crime_excel_to_json(filename)
     delete_excel(filename)
     return dictionary
-
-
 
 
 # TODO: Call this function @MH
