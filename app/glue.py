@@ -14,7 +14,7 @@ from app.models import Suburb
 import api.accommodation as acc
 import api.crime as crime
 import api.poi as poi
-
+import api.wiki as wiki
 
 
 # app = Blueprint('app', __name__, url_prefix='')
@@ -23,21 +23,21 @@ import api.poi as poi
 
 # @app.route("/results/crime/<suburb_name>", methods=['POST'])
 def get_crime(suburb_name):
-    # TODO: Debug this function! @MH
     return crime.get_info(suburb_name)
-
 
 
 # @app.route("/results/poi/<suburb_name>", methods=['POST'])
 def get_poi(suburb_name):
-    # TODO: Debug this function! @MH
     return poi.get_info(suburb_name)
 
 
 # @app.route("/results/accommodation/<suburb_name>", methods=['POST'])
 def get_accommodation(suburb_name):
-    # TODO: Debug this function! @MH
     return acc.get_info(suburb_name)
+
+
+def get_wiki_info(suburb_name):
+    return wiki.get_info(suburb_name)
 
 
 # # @bp.route('/search', methods=['POST'])
@@ -62,4 +62,5 @@ def get_accommodation(suburb_name):
 #     endpoint='search',
 #     view_func=search,
 #     options=dict(methods=['POST']))
+
 
