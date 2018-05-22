@@ -32,5 +32,3 @@ def show_results(suburb):
     :return:
     '''
     return render_template('app/result.html', suburb=suburb)
-
-
