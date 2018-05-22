@@ -2,12 +2,13 @@ class Suburb:
 
     _instances = {}
 
-    def __init__(self, name, crime_stats, acc_stats, poi):
+    def __init__(self, name, crime_stats, acc_stats, poi, wiki):
         # Test
         self.name = name
         self.crime_stats = crime_stats
         self.acc_stats = acc_stats
         self.poi = poi
+        self.wiki = wiki
         self._instances[name] = self
 
     @classmethod

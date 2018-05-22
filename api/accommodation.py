@@ -119,6 +119,9 @@ def get_info(suburb):
     '''
     connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
     info = []
+    # TEST ONLY
+    _override = 'Sydney'
+    suburb = _override
     for i in Accommodation.objects:
         if i.suburb == suburb:
             spec_info = {}
@@ -136,5 +139,5 @@ def get_info(suburb):
 
 # print(show_info('Albury'))
 
-
+# print(get_info('Sydney'))
 

@@ -50,6 +50,7 @@ def search():
 
     crime = glue.get_crime(suburb_name)
     acc = glue.get_accommodation(suburb_name)
+    print(acc)
     poi = glue.get_poi(suburb_name)
     suburb_obj = Suburb(suburb_name, crime, acc, poi)
 
