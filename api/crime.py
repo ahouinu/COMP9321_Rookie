@@ -10,6 +10,7 @@ import requests
 import os
 
 # connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
+prefix = os.getcwd()
 
 
 class Crime(Document):
@@ -33,7 +34,7 @@ def get_and_save_lga(suburb):
     '''
     url = "http://www.bocsar.nsw.gov.au/Documents/RCS-Annual/" + suburb + "LGA.xlsx"
     r = requests.get(url)
-    with open('../src/xlsm/' + suburb + ".xlsx", 'wb') as f:
+    with open(prefix + '/src/xlsx/' + suburb + ".xlsx", 'wb') as f:
         f.write(r.content)
 
 
@@ -56,6 +57,7 @@ def crime_excel_to_json(filename):
                 crime_type = table.row_values(i)[1]
                 rank = int(table.row_values(i)[14])
         except:
+            crime_type = ''
             pass
         try:
             if float(table.row_values(i)[12]) > rate_24month:
@@ -94,8 +96,14 @@ def delete_excel(filename):
 
 # TODO: Call this function @MH
 def get_info(suburb):
-    filename = suburb + '.xlsx'
+    # TEST ONLY
+    _override = 'Sydney'
+    suburb = _override
+    filename = prefix + '/src/xlsx/' + suburb + '.xlsx'
     get_and_save_lga(suburb)
     res = crime_excel_to_json(filename)
 
     return res
+
+
+# print(get_info('Sydney'))

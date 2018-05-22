@@ -39,23 +39,27 @@
     <div class="tab-content" id="myTabContent">
         <div id="overview" class="tab-pane fade show active" aria-labelledby="home-tab">
             <h3 class="col-center-block">Overview</h3>
-            <p>{suburb_name}: some description goes here...</p>
+            <h4>{{suburb.name}}</h4>
+            <p>Some description goes here...</p>
             <!--<p>Crime stats goes here...</p>-->
         </div>
 
         <div id="crime" class="tab-pane fade" aria-labelledby="crime-tab">
             <h3 class="col-center-block">Crime</h3>
-            <p>Accommodation details goes here...</p>
+            <p>Crime details goes here...</p>
+            <p>{{suburb.crime_stats}}</p>
         </div>
 
         <div id="acc" class="tab-pane fade" aria-labelledby="acc-tab">
             <h3 class="col-center-block">Accommodation</h3>
             <p>Accommodation details goes here...</p>
+            <p>{{suburb.acc_stats}}</p>
         </div>
 
         <div id="poi" class="tab-pane fade" aria-labelledby="poi-tab">
             <h3 class="col-center-block">Places of Interests (POIs)</h3>
             <p>POI details goes here...</p>
+            <p>{{suburb.poi}}</p>
             <p>Here's a button linked to Google Map</p>
         </div>
     </div>
