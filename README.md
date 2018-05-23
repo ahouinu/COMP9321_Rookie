@@ -1,6 +1,13 @@
 # COMP9321_Rookie
 Git repository for COMP9321 18s1 Group Rookie
 
+## TODO:
+* Map raw data into target schema.
+* Build data curation on top of the dataset below.
+
+## LGA and Suburb Mapping Dataset
+After hours of searching on google with Miller, I finally found this speadsheet(https://docs.google.com/spreadsheets/d/1RPJFmOFusUSS-Fu2nWids_SiH3CkAbKsml7IhgG-3Js/edit#gid=0) from a forum(http://forums.whirlpool.net.au/archive/1593170). Huge thanks to Dalamar1975 from that forum.
+
 ## Log 21/May
 ### API done by @LY and @MS
 Need to be reviewed and used in glue.py
