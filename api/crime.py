@@ -123,4 +123,4 @@ def get_info(suburb):
     return res
 
 
-# print(get_info('Randwick'))
+print(get_info('Randwick'))

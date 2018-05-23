@@ -140,4 +140,4 @@ def get_info(suburb):
 # print(show_info('Albury'))
 
 
-# print(get_info('Kingsford'))
+print(get_info('Sydney'))
