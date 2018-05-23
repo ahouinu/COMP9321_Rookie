@@ -45,7 +45,7 @@ def get_and_save_lga(suburb):
     '''
     url = "http://www.bocsar.nsw.gov.au/Documents/RCS-Annual/" + suburb + "LGA.xlsx"
     r = requests.get(url)
-    with open(prefix + suburb + ".xlsx", 'wb') as f:
+    with open(prefix + '/src/xlsx/' + suburb + ".xlsx", 'wb') as f:
         f.write(r.content)
 
 
@@ -114,8 +114,8 @@ def show_info(suburb):
 # TODO: Call this function @MH
 def get_info(suburb):
     # TEST ONLY
-    _override = 'Sydney'
-    suburb = _override
+    # _override = 'Sydney'
+    # suburb = _override
     filename = prefix + '/src/xlsx/' + suburb + '.xlsx'
     get_and_save_lga(suburb)
     res = crime_excel_to_json(filename)
@@ -123,4 +123,4 @@ def get_info(suburb):
     return res
 
 
-# print(get_info('Sydney'))
+# print(get_info('Randwick'))

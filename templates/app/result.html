@@ -40,8 +40,14 @@
         <div id="overview" class="tab-pane fade show active" aria-labelledby="home-tab">
             <h3 class="col-center-block">Overview</h3>
             <h4>{{suburb.name}}</h4>
-            <p>From Wikipedia</p>
-            <p>{{suburb.wiki}}.</p>
+            <!--<p>From Wikipedia</p>-->
+            <!--<p>{{suburb.wiki}}.</p>-->
+            <div class="card">
+                <div class="card-title">From Wikipedia</div>
+                <div class="card-body">
+                    <p class="text-justify" style="word-break: break-all">{{suburb.wiki}}</p>
+                </div>
+            </div>
             <div>
                 <!--<p>Weather Section (from WeatherWidget.io) (Only static)</p>-->
                 <!--<div>-->
