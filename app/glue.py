@@ -15,6 +15,7 @@ import api.accommodation as acc
 import api.crime as crime
 import api.poi as poi
 import api.wiki as wiki
+import api.curation as curation
 
 
 # app = Blueprint('app', __name__, url_prefix='')
@@ -38,6 +39,9 @@ def get_accommodation(suburb_name):
 
 def get_wiki_info(suburb_name):
     return wiki.get_info(suburb_name)
+
+
+# TODO: implement curation API!!
 
 
 # # @bp.route('/search', methods=['POST'])

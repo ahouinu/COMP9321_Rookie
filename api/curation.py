@@ -25,6 +25,7 @@ def get_lga():
     # print('test')
     # print(lga_dic)
 
+
 def build_suburb_list():
     lga_dic = get_lga()
     ll = sorted((lga_dic.keys()))
@@ -32,26 +33,24 @@ def build_suburb_list():
     return ll
 
 
-def typo_check():
+def typo_check(token):
     '''
-
+    :param token
     :return: the correction of potential typo: string
     '''
     err = 100
     correction = ''
     sub_list = build_suburb_list()
 
-    token = input("input suburb with error!\n")
+    # token = input("input suburb with error!\n")
 
     for i in sub_list:
         if err > nltk.edit_distance(token, i):
             err = nltk.edit_distance(token, i)
             correction = i
 
-    print(f'Do you mean {correction}?')
+    # print(f'Do you mean {correction}?')
     return correction
-
-
 
 
 # get_lga()

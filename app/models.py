@@ -17,3 +17,5 @@ class Suburb:
             return cls._instances[suburb_name]
         except KeyError:
             return {}
+
+suburb_candidates = []

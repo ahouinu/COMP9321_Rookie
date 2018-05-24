@@ -8,7 +8,7 @@ Flask application user interface
 from flask import request, render_template, Flask, redirect, url_for, make_response
 from flask import Blueprint
 # from app.glue import routes as glue_routes
-from app.models import Suburb
+from app.models import Suburb, suburb_candidates
 import app.glue as glue
 # import flask_restful
 
@@ -20,6 +20,7 @@ bp = Blueprint('app', __name__, url_prefix='')
 #                 endpoint=glue_routes['endpoint'],
 #                 view_func=glue_routes['view_func'],
 #                 **glue_routes['options'])
+GOOGLE_MAP_API_KEY = 'AIzaSyDbdgCBSoXfep6LvrUsPRciIDc6ov9KceA'
 
 
 @bp.route('/', methods=['GET'])
