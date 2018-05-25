@@ -40,10 +40,22 @@ sample2
 }
 '''
 
-from mongoengine import StringField, IntField, Document, EmbeddedDocument, ListField, EmbeddedDocumentField
+
+# print(get_mark('Wentworth'))
+# {'Townhouse': 100.0}
+# print(get_mark('Randwick'))
+# {'Townhouse': 42.98}
+# print(get_mark('Albury'))
+# {'Total': 40.68}
+# print(get_mark('Armidale Regional'))
+# {'House': 59.09}
+# print(get_mark('Blacktown'))
+# {'House': 37.2}
+
+
+from mongoengine import StringField, IntField, Document, EmbeddedDocument, ListField
 from mongoengine import connect
 import xlrd
-
 
 class Bedroom_number(EmbeddedDocument):
     total = StringField(required=True)
@@ -65,7 +77,6 @@ class Bedroom_number(EmbeddedDocument):
         self.four_or_more_bedrooms = four_or_more_bedrooms
         self.bedsitter = bedsitter
 
-
 class Accommodation(Document):
     id = IntField(required=True, primary_key=True)
     suburb = StringField(required=True)
@@ -78,7 +89,6 @@ class Accommodation(Document):
         self.suburb = suburb
         self.dewelling_type = dewelling_type
         self.bedroom_number = bedroom_number
-
 
 def excel_to_json(name):
     data = xlrd.open_workbook(name)
@@ -110,20 +120,14 @@ def excel_to_json(name):
             connect(host = "mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
             db_json.save()
 
-
-# TODO: Call this function @MH
-def get_info(suburb):
-    '''
-    :param suburb: 'suburb name'
-    :return: list of info (could be empty)
-    '''
+# excel_to_json('Rent.xlsx')
+def show_info(suburb):
     connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
     info = []
-    # TEST ONLY
-    # _override = 'Sydney'
-    # suburb = _override
+    dewelling_type = ['Total','House','Townhouse','Flat/Unit']
     for i in Accommodation.objects:
-        if i.suburb.lower() == suburb.lower():
+        if i.suburb.lower() == suburb.lower() and i.dewelling_type in dewelling_type:
+            dewelling_type.remove(i.dewelling_type)
             spec_info = {}
             spec_info.update({'dewelling_type ':i.dewelling_type})
             for j in i.bedroom_number:
@@ -137,7 +141,39 @@ def get_info(suburb):
             info.append(spec_info)
     return info
 
-# print(show_info('Albury'))
+# print(show_info('randwick'))
+
+def get_mark(suburb):
+    '''
+    get highest price performance ratio & corresponding dewelling type
+    if mark == 0, it means that Not found related data
+    :param suburb: suburb
+    :return: dictionary{corresponding dewelling type: float(max score in four types)}
+    '''
+    raw_list = show_info(suburb)
+    sum_price_dic = {}
+    for raw in raw_list:
+        if raw['Bedroom_number.total'] == '-':
+            price_ratio = 0 #'Not Found Related Data'
+        else:
+            sum_price = 0
+            for e in raw.keys():
+                if e != 'Bedroom_number.total' and e != 'dewelling_type ':
+                    if raw[e] != '-':
+                        # print(e, raw[e])
+                        sum_price += float(raw[e].split(' ')[-2])
+            price_ratio = round(sum_price/(6*float(raw['Bedroom_number.total'].split(' ')[-2]))*100,2)
+        sum_price_dic.update({raw['dewelling_type ']: price_ratio})
+    for key in sum_price_dic.keys():
+        if sum_price_dic[key] == max(sum_price_dic.values()):
+            price_performance_ratio = {key: round(max(sum_price_dic.values())/sum(sum_price_dic.values())*100,2)}
+    return price_performance_ratio
+
+# print(get_mark('Albury'))
 
 
-print(get_info('Sydney'))
+
+
+
+
+
