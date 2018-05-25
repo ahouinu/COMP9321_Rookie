@@ -2,6 +2,7 @@
 Crime stats API
 Author: LY
 '''
+
 # sample1
 # d = show_info('Randwick')
 # print(d)
@@ -15,15 +16,25 @@ Author: LY
 # print(d)
 # {'trend_24month_crime_type': 'Not Found Related Data', 'trend_60month_crime_type': 'Not Found Related Data', 'crime_type': 'Not Found Related Data'}
 
+# sample1
+# m = get_mark('Randwick')
+# print(m)
+# {'safety': 29.41}
+# sample2
+# m = get_mark('Sydney')
+# print(m)
+# {'safety': 100.0}
+# sample3
+# m = get_mark('kengsinton')
+# print(m)
+# {'safety': 'Not Found Related Data'}
+
 from mongoengine import StringField, Document
-from mongoengine import connect
 import xlrd
 import requests
 import os
 
-# connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
 prefix = os.getcwd()
-
 
 class Crime(Document):
     crime_type = StringField(required=True)
@@ -39,19 +50,19 @@ class Crime(Document):
 # method for download the lga
 def get_and_save_lga(suburb):
     '''
-    下载下来一个 crime的excel表
-    :param suburb: input的值
-    :return: 内存中存在相应的excel表
+    download a crime excel table
+    :param suburb: input
+    :return: exist corresponding excel table
     '''
     url = "http://www.bocsar.nsw.gov.au/Documents/RCS-Annual/" + suburb + "LGA.xlsx"
     r = requests.get(url)
-    with open(prefix + '/src/xlsx/' + suburb + ".xlsx", 'wb') as f:
+    with open(prefix + '/src/xlsx' + suburb + ".xlsx", 'wb') as f:
         f.write(r.content)
 
 
 def crime_excel_to_json(filename):
     '''
-    将下载下来的 crime excel表，已json的形式输出
+    transform crime excel table to json
     :param filename: suburb+'.xlsx'
     :return: json(crime_type(highest_rate),trend_24month,trend_60month)
     '''
@@ -63,11 +74,15 @@ def crime_excel_to_json(filename):
         rate_60month = 0
         trend_24month, trend_60month = None, None
         # print(table.row_values(7)[14] == ' ')
+        count = 17
         for i in range(7, 23):
             try:
                 if int(table.row_values(i)[14]) < rank:
                     crime_type = table.row_values(i)[1]
                     rank = int(table.row_values(i)[14])
+                    count -= 1
+                else:
+                    count -= 1
             except:
                 crime_type = None
             try:
@@ -86,41 +101,49 @@ def crime_excel_to_json(filename):
         # print(crime_type,highest_rate)
     except:
         crime_type, trend_24month, trend_60month = 'Not Found Related Data', 'Not Found Related Data', 'Not Found Related Data'
-
+        count = 170000
+    # print('count ',count)
     db_json = Crime(crime_type, trend_24month, trend_60month)
     dictionary = {'crime_type': db_json.crime_type, 'trend_24month_crime_type': db_json.trend_24month,
                   'trend_60month_crime_type': db_json.trend_60month}
-    return dictionary
-
+    return dictionary, count
 
 def delete_excel(filename):
     '''
-    删除已存在的crime excle表
+    delete crime excle table
     :param filename: suburb+'.xlsx'
     :return: 
     '''
     if os.path.isfile(filename):
         os.remove(filename)
 
-
 def show_info(suburb):
+    filename = prefix + '/src/xlsx/' + suburb + '.xlsx'
     get_and_save_lga(suburb)
-    filename = suburb + '.xlsx'
-    dictionary = crime_excel_to_json(filename)
-    delete_excel(filename)
+    dictionary, count = crime_excel_to_json(filename)
+    # delete_excel(filename)
     return dictionary
 
 
-# TODO: Call this function @MH
-def get_info(suburb):
-    # TEST ONLY
-    # _override = 'Sydney'
-    # suburb = _override
+def get_mark(suburb):
+    '''
+    get safety mark
+    :param suburb: input str
+    :return: dictionary{'safety': float(score)}
+    '''
     filename = prefix + '/src/xlsx/' + suburb + '.xlsx'
     get_and_save_lga(suburb)
-    res = crime_excel_to_json(filename)
+    dictionary, count = crime_excel_to_json(filename)
+    if round(count/17*100,2) <= 100:
+        mark = round(count/17*100,2)
+    else:
+        mark = 'Not Found Related Data'
+    safety = {'safety': mark}
+    delete_excel(filename)
+    return safety
 
-    return res
 
 
-print(get_info('Randwick'))
+    
+
+
