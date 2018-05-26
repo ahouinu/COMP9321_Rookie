@@ -6,6 +6,8 @@ http://maps.six.nsw.gov.au/arcgis/rest/services/public/NSW_POI/MapServer/find?se
 
 import requests
 
+import math
+
 from bs4 import BeautifulSoup
 from collections import Counter
 # check the url
@@ -124,11 +126,44 @@ def run(user_input):
                 inter_check_list.append(data)
         return inter_check_list
 
+def rank_initial(dic):
+    dic["Community"] = 0
+    dic["Education"] = 0
+    dic["Recreation"] = 0
+    dic["Transport"] = 0
+    return dic
+
+def rank_count(result, Surburb_value):
+    # rank 1(count: 0 - 3)
+    # rank 2(count: 3 - 6)
+    # rank 3(count: 6 - 9)
+    # rank 4(count: 9 - 12)
+    # rank 5(count: 12 or more)
+    for item in result:
+        if item["poigroup: "] == " Community":
+            Surburb_value["Community"] += 1
+        if item["poigroup: "] == " Education":
+            Surburb_value["Education"] += 1
+        if item["poigroup: "] == " Recreation":
+            Surburb_value["Recreation"] += 1
+        if item["poigroup: "] == " Transport":
+            Surburb_value["Transport"] += 1
+
+def rank(result):
+    dict = {}
+    Surburb_value = rank_initial(dict)
+    rank_count(result, Surburb_value)
+    for _ in Surburb_value.keys():
+        Surburb_value[_] = math.ceil(Surburb_value[_]/3)
+        if Surburb_value[_] > 5:
+            Surburb_value[_] = 5
+        if Surburb_value[_] == 0:
+            Surburb_value[_] = 1
+    return Surburb_value
+
 def get_info(input):
     # return a list contains several dictionaries which fit the requirement
 
     # run(input)
-    return run(input)
+    return run(input), rank(run(input))
 
-
-# print(get_info('Sydney'))
