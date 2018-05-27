@@ -74,12 +74,18 @@
         <div id="crime" class="tab-pane fade" aria-labelledby="crime-tab">
             <h3 class="col-center-block">Crime</h3>
             <p>Crime details goes here...</p>
+            {% if suburb.is_lga %}
+                <p>Showing data from {{ suburb.lga }}</p>
+            {% endif %}
             <p>{{suburb.crime_stats}}</p>
         </div>
 
         <div id="acc" class="tab-pane fade" aria-labelledby="acc-tab">
             <h3 class="col-center-block">Accommodation</h3>
             <p>Accommodation details goes here...</p>
+            {% if suburb.is_lga %}
+                <p>Showing data from {{ suburb.lga }}</p>
+            {% endif %}
             <p>{{suburb.acc_stats}}</p>
         </div>
 

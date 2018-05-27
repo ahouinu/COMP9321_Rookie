@@ -56,7 +56,7 @@ def get_and_save_lga(suburb):
     '''
     url = "http://www.bocsar.nsw.gov.au/Documents/RCS-Annual/" + suburb + "LGA.xlsx"
     r = requests.get(url)
-    with open(prefix + '/src/xlsx' + suburb + ".xlsx", 'wb') as f:
+    with open(prefix + '/src/xlsx/' + suburb + ".xlsx", 'wb') as f:
         f.write(r.content)
 
 
@@ -143,7 +143,8 @@ def get_mark(suburb):
     return safety
 
 
-
+def get_info(suburb_name):
+    return show_info(suburb_name)
     
 
 

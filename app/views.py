@@ -1,14 +1,15 @@
 '''
 
 Author: @TC
-Flask application user interface
+Flask Application User Interface
 
 '''
 
 from flask import request, render_template, Flask, redirect, url_for, make_response
 from flask import Blueprint
+from flask_restful import reqparse
 # from app.glue import routes as glue_routes
-from app.models import Suburb, suburb_candidates
+from app.models import Suburb
 import app.glue as glue
 # import flask_restful
 
@@ -48,12 +49,24 @@ def search():
 
     # postcode = re.form.get("postcode")
     suburb_name = request.form.get('suburb')
+    if not glue.check_input(suburb_name):
+        # correction = glue.correct_input(suburb_name)
+        return redirect(url_for('.suburb_not_found', origin=suburb_name))
 
-    crime = glue.get_crime(suburb_name)
-    acc = glue.get_accommodation(suburb_name)
-    print(acc)
-    poi = glue.get_poi(suburb_name)
-    wiki = glue.get_wiki_info(suburb_name)
-    suburb_obj = Suburb(suburb_name, crime, acc, poi, wiki)
+    suburb_obj = glue.get_suburb_obj(suburb_name)
 
     return redirect(url_for('.show_results', suburb_name=suburb_name))
+
+
+@bp.route('/error', methods=['GET'])
+def suburb_not_found():
+    parser = reqparse.RequestParser()
+    parser.add_argument('origin')
+    # parser.add_argument('correction')
+    args = parser.parse_args()
+
+    origin = args.get('origin')
+    # correction = args.get('correction')
+    correction = glue.correct_input(origin)
+
+    return render_template('app/suburb_not_found.html', origin=origin, correction=correction)

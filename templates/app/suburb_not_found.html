@@ -1,0 +1,15 @@
+{% extends '/app/error.html' %}
+{% block title %} Suburb Not Found {% endblock %}
+{% block body %}
+<body>
+    <h1>Suburb Not Found</h1>
+    <p>Seems <b>{{origin}}</b> is not a good input.</p>
+    <p>Maybe you are looking for <b>{{correction}}</b>. Click the button below to search again.</p>
+    <form method="post" action="{{ url_for('app.search') }}">
+        <tr>
+            <td><input type="text" name="suburb" class="form-control" value="{{correction}}"></td>
+            <td><input type="submit" value="submit" style="margin-left: 12px"></td>
+        </tr>
+    </form>
+</body>
+{% endblock %}
