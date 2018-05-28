@@ -12,6 +12,7 @@ from flask_restful import reqparse
 # from app.glue import routes as glue_routes
 from app.models import Suburb
 import app.glue as glue
+import json
 # import flask_restful
 root = os.getcwd()
 bp = Blueprint('app', __name__, url_prefix='', static_folder='/templates/')
@@ -38,8 +39,13 @@ def show_results(suburb_name):
     :param suburb_name: a Suburb object containing all the information
     :return:
     '''
+    if not Suburb.imported(suburb_name):
+        return redirect(url_for('.index'))
     suburb = Suburb.get_instance(suburb_name)
-    return render_template('app/result.html', suburb=suburb)
+    data = json.dumps(suburb.poi_locations)
+    # occ = data.count('"')
+    # data = data.replace(count=occ)
+    return render_template('app/result.html', suburb=suburb, locations=data)
 
 
 @bp.route('/search', methods=['POST'])
@@ -51,6 +57,8 @@ def search():
     # postcode = re.form.get("postcode")
     suburb_name = request.form.get('suburb')
     suburb_name = suburb_name.replace('+', ' ')
+    if Suburb.imported(suburb_name):
+        return redirect(url_for('.show_results', suburb_name=suburb_name))
     if not glue.check_input(suburb_name):
         # correction = glue.correct_input(suburb_name)
         return redirect(url_for('.suburb_not_found', origin=suburb_name))

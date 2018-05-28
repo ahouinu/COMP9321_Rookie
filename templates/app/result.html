@@ -34,13 +34,24 @@
             margin: 0 auto;
         }
 
-  .star-ratings-sprite-rating {
-      background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
-      background-position: 0 100%;
-      float: left;
-      height: 21px;
-      display: block;
-  }
+        .star-ratings-sprite-rating {
+          background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+          background-position: 0 100%;
+          float: left;
+          height: 21px;
+          display: block;
+        }
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
     </style>
 </head>
@@ -164,8 +175,8 @@
             <img src="{{ url_for('app.send_figure', filename = suburb.acc_path) }}" class="img-fluid" alt="Responsive image" style="width: 50%; align-content: center">
             <table>
                 <tr>
-                    <td>Type</td>
-                    <td>Average Rental</td>
+                    <td><b>Type</b></td>
+                    <td><b>Average Rental</b></td>
                 </tr>
                 {% for e in suburb.acc_stats %}
                 <tr>
@@ -181,16 +192,19 @@
 {#            <p>POI details goes here...</p>#}
 {#            <p>{{suburb.poi}}</p>#}
 {#            <p>Here's a button linked to Google Map</p>#}
+            <div id="map"></div>
             <img src="{{ url_for('app.send_figure', filename = suburb.poi_path) }}" class="img-fluid" alt="Responsive image" style="width: 50%; align-content: center">
             <table>
                 <tr>
-                    <td>POI Name</td>
-                    <td>POI Type</td>
+                    <td><b>POI Name</b></td>
+                    <td><b>POI Type</b></td>
+                    <td><b>Google Map Link</b></td>
                 </tr>
-                {% for poi in suburb.poi %}
+                {% for i in range(suburb.nb_of_pois) %}
                     <tr>
-                        <td>{{ poi['name'] }} </td>
-                        <td><i>{{ poi['type'] }}</i></td>
+                        <td>{{ suburb.poi[i]['name'] }} </td>
+                        <td><i>{{ suburb.poi[i]['type'] }}</i></td>
+                        <td><a href="https://www.google.com.au/maps/search/{{ suburb.poi_urls[i] }}">{{ suburb.poi_locations[i] }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -198,7 +212,43 @@
     </div>
 </div>
 
+<!-- Google Map JavaScript -->
+<script>
 
+      function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: -28.024, lng: 140.887}
+        });
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+        var markers = locations.map(function(location, i) {
+          return new google.maps.Marker({
+            position: location,
+            label: labels[i % labels.length]
+          });
+        });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      }
+      var locations = {{ suburb.poi_locations | tojson}}
+    {#console.log({{ locations | safe }})#}
+    {#console.log({{ suburb.poi_locations | tojson }})#}
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbdgCBSoXfep6LvrUsPRciIDc6ov9KceA&callback=initMap">
+    </script>
 
 <!-- Optional JavaScript -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

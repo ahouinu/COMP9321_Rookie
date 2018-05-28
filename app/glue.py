@@ -16,6 +16,7 @@ import api.crime as crime
 import api.poi as poi
 import api.wiki as wiki
 import api.curation as cur
+import api.googlemap as map
 import matplotlib.pyplot as plt
 # import mpld3
 import os
@@ -60,6 +61,7 @@ def get_rates(suburb_name):
     tmp = [round(crime_rate), round(acc_rate), round(poi_rate * 20)]
 
     all_rates = sum(tmp) / 3
+
     tmp.append(all_rates)
 
     res = [str(e) for e in tmp]
@@ -118,6 +120,8 @@ def get_suburb_obj(suburb_name):
 
     suburb.set_figure_paths(acc_path, poi_path)
 
+    suburb.set_poi_locations(get_poi_locations(suburb))
+
     # db.save_doc(suburb)
 
     return suburb
@@ -160,6 +164,21 @@ def draw_poi_plot(suburb_obj):
     plt.close()
     return filename
 
+
+def get_poi_locations(suburb_obj):
+    poi_list = []
+    for e in suburb_obj.poi:
+        poi_list.append(e['name'])
+
+    tmp = map.get_info(poi_list)
+    res = []
+    for k, v in tmp.items():
+        res.append({'lat': v[0], 'lng': v[1]})
+
+    return res
+
+
+
 # # @bp.route('/search', methods=['POST'])
 # def search():
 #     # parser = re.RequestParser()
@@ -186,6 +205,7 @@ def draw_poi_plot(suburb_obj):
 # print(get_rates('Randwick'))
 # import _pickle as pickle
 # obj = get_suburb_obj('Kingsford')
+# get_poi_locations(obj)
 # draw_acc_plot(obj)
 # draw_poi_plot(obj)
 # print(obj)

@@ -36,6 +36,9 @@ class Suburb():
         self.acc_path = None
         self.poi_path = None
         self.rates_value = {}
+        self.poi_locations = []
+        self.poi_urls = []
+        self.nb_of_pois = 0
 
     @classmethod
     def get_instance(cls, suburb_name):
@@ -43,6 +46,10 @@ class Suburb():
             return cls._instances[suburb_name]
         except KeyError:
             return {}
+
+    @classmethod
+    def imported(cls, suburb_name):
+        return suburb_name in cls._instances.keys()
 
     def set_rates(self, crime_rate, acc_rate, poi_rate, all_rate):
         self.rates = {'all': all_rate,
@@ -60,3 +67,10 @@ class Suburb():
     def set_figure_paths(self, acc_path, poi_path):
         self.acc_path = acc_path
         self.poi_path = poi_path
+
+    def set_poi_locations(self, poi_locations):
+        self.poi_locations = poi_locations
+        for poi in poi_locations:
+            tmp = ','.join([str(poi['lat']), str(poi['lng'])])
+            self.poi_urls.append(tmp)
+        self.nb_of_pois = len(poi_locations)

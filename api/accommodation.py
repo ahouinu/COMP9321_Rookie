@@ -144,6 +144,8 @@ def show_info(suburb):
                 spec_info.update({'Bedroom_number.four_or_more_bedrooms': j.four_or_more_bedrooms})
                 spec_info.update({'Bedroom_number.bedsitter': j.bedsitter})
             info.append(spec_info)
+    if not info:
+        return show_info(suburb='Total')
     return info
 
 # print(show_info('randwick'))

@@ -9,12 +9,12 @@ def get_info(poi):
     '''
 
     :param poi: list of poi name.
-    :return: list of {dicts[poiname]: (x,y)}
+    :return: dict {name: location(x, y)}
     '''
     geo_dic = dict()
 
     for i in poi:
-        i = i.strip()
+        i = i.strip() + ', NEW SOUTH WALES, AU'
         geocode_test = gmaps.geocode(i)
         # geo_place = geocode_test[0]['geometry']['location']
 
@@ -22,7 +22,7 @@ def get_info(poi):
         y = geocode_test[0]['geometry']['location']['lng']
         geo_dic[i] = (x,y)
 
-    print(len(geo_dic))
+    # print(len(geo_dic))
     return geo_dic
 
 ## can be used to generate a target url:
