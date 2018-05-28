@@ -16,7 +16,7 @@ import api.crime as crime
 import api.poi as poi
 import api.wiki as wiki
 import api.curation as cur
-import app.db as db
+# import app.db as db
 
 candidates = cur.build_suburb_list()
 lga_dict = cur.get_lga()
@@ -71,9 +71,9 @@ def correct_input(suburb_name):
 
 def get_suburb_obj(suburb_name):
 
-    if db.is_stored(suburb_name):
-        res = db.get_doc(suburb_name)
-        return res
+    # if db.is_stored(suburb_name):
+    #     res = db.get_doc(suburb_name)
+    #     return res
 
     lga = lga_dict[suburb_name]
 
@@ -88,7 +88,7 @@ def get_suburb_obj(suburb_name):
     suburb.set_rates(rates[0], rates[1], rates[2], rates[3])
     suburb.set_lga(lga)
 
-    db.save_doc(suburb)
+    # db.save_doc(suburb)
 
     return suburb
 
@@ -117,6 +117,9 @@ def get_suburb_obj(suburb_name):
 #     options=dict(methods=['POST']))
 
 # print(get_rates('Randwick'))
-obj = get_suburb_obj('Kingsford')
-# print(get_suburb_obj('Kingsford'))
-print()
+# import _pickle as pickle
+# obj = get_suburb_obj('Kingsford')
+# with open('Kingsford.pkl', 'wb') as output:
+#     pickle.dump(obj, output)
+# # print(get_suburb_obj('Kingsford'))
+# print()

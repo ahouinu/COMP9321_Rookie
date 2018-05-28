@@ -2,25 +2,25 @@ from mongoengine import StringField, IntField, Document, ListField, DictField, D
 from datetime import datetime
 
 
-class Suburb(Document):
+class Suburb():
 
     _instances = {}
 
-    id = IntField(required=True, primary_key=True)
-    name = StringField(required=True, max_length=50)
-    lga = StringField(required=True, max_length=50)
-    crime_stats = DictField(required=True)
-    acc_stats = ListField(required=True)
-    poi = ListField(required=True)
-    poi_rate = DictField(required=True)
-    wiki = StringField(required=True)
-    rates = DictField(required=True)
-    last_updated = DateTimeField(required=True)
-
+    # id = IntField(required=True, primary_key=True)
+    # name = StringField(required=True, max_length=50)
+    # lga = StringField(required=True, max_length=50)
+    # crime_stats = DictField(required=True)
+    # acc_stats = ListField(required=True)
+    # poi = ListField(required=True)
+    # poi_rate = DictField(required=True)
+    # wiki = StringField(required=True)
+    # rates = DictField(required=True)
+    # last_updated = DateTimeField(required=True)
 
     def __init__(self, name, crime_stats, acc_stats, poi, wiki, *args, **kwargs):
         # Test
         super().__init__(*args, **kwargs)
+        # self.id = len(self._instances)
         self.name = name
         self.crime_stats = crime_stats
         self.acc_stats = acc_stats

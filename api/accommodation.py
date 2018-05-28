@@ -57,7 +57,7 @@ from mongoengine import StringField, IntField, Document, EmbeddedDocument, ListF
 from mongoengine import connect
 import xlrd
 
-acc_db = connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3", alias='acc')
+# acc_db = connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3", alias='acc')
 
 class Bedroom_number(EmbeddedDocument):
     total = StringField(required=True)
@@ -119,14 +119,15 @@ def excel_to_json(name):
                                     [Bedroom_number(bn['Total'],bn['Not Specified'],bn['1 Bedroom'],
                                                     bn['2 Bedrooms'],bn['3 Bedrooms'],
                                                     bn['4 or more Bedrooms'],bn['Bedsitter'])])
-            # connect(host = "mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3", alias='acc')
-            connect(db='acc')
+            connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
+            # connect(db='comp9321_ass3')
             db_json.save()
 
 # excel_to_json('Rent.xlsx')
 def show_info(suburb):
-    # connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3", alias='acc')
-    connect(db='acc')
+    connect('accommodation', host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3")
+    # connect('accommodation')
+    # connect(db='comp9321_ass3')
     info = []
     dewelling_type = ['Total','House','Townhouse','Flat/Unit']
     for i in Accommodation.objects:
@@ -181,6 +182,8 @@ def get_info(suburb_name):
     return show_info(suburb_name)
 
 
-
+# if __name__ == '__main__':
+    # connect(host="mongodb://ass3:ass3@ds157641.mlab.com:57641/comp9321_ass3", username='ass3', password='ass3',
+    #         alias='acc')
 
 
