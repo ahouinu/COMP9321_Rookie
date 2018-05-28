@@ -54,5 +54,5 @@ def typo_check(token):
 
 
 # get_lga()
-# build_suburb_list()
+print(build_suburb_list())
 # typo_check()

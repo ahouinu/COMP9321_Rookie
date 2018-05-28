@@ -15,6 +15,34 @@
             <!--margin-right: auto;-->
         <!--}-->
     <!--</style>-->
+{#    <style>#}
+{#       @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700);#}
+{#body { margin: 50px; text-align: center; font-family: 'Open Sans', sans-serif; background: #f2fbff; }#}
+{#em { font-style: italic; }#}
+{#h1 { font-size: 24px; margin-bottom: 25px; font-weight: bold; text-transform: uppercase; }#}
+{#h2 { font-size: 16px; margin-bottom: 15px;}#}
+{#    </style>#}
+    <style>
+        .star-ratings-sprite {
+            background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+            font-size: 0;
+            height: 21px;
+            line-height: 0;
+            overflow: hidden;
+            text-indent: -999em;
+            width: 110px;
+            margin: 0 auto;
+        }
+
+  .star-ratings-sprite-rating {
+      background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+      background-position: 0 100%;
+      float: left;
+      height: 21px;
+      display: block;
+  }
+
+    </style>
 </head>
 <body>
 
@@ -32,20 +60,56 @@
                 <a class="nav-link" data-toggle="tab" href="#acc" aria-controls="crime" aria-selected="false">Accommodation</a>
             </li>
             <li>
-                <a class="nav-link" data-toggle="tab" href="#poi" aria-controls="poi", aria-selected="false">POI</a>
+                <a class="nav-link" data-toggle="tab" href="#poi" aria-controls="poi" aria-selected="false">POI</a>
             </li>
         </ul>
     </div>
     <div class="tab-content" id="myTabContent">
         <div id="overview" class="tab-pane fade show active" aria-labelledby="home-tab">
             <h3 class="col-center-block">Overview</h3>
-            <h4>{{suburb.name}}</h4>
+            <h4>{{suburb.name}} Summary</h4>
+            <div class="form-group">
+                <table>
+                    <tr>
+                        <td><h5>Summary</h5></td>
+                        <td><div class="star-ratings-sprite"><span style="width: {{ suburb.rates['all'] }}%" class="star-ratings-sprite-rating"></span></div></td>
+                        <td>({{ suburb.rates_value['all'] }} / 5.0 )</td>
+                    </tr>
+                    <tr>
+                        <td><h5>Safety</h5></td>
+                        <td><div class="star-ratings-sprite"><span style="width: {{ suburb.rates['crime'] }}%" class="star-ratings-sprite-rating"></span></div></td>
+                        <td>({{ suburb.rates_value['crime'] }} / 5.0 )</td>
+                    </tr>
+                    <tr>
+                        <td><h5>Rental</h5></td>
+                        <td><div class="star-ratings-sprite"><span style="width: {{ suburb.rates['acc'] }}%" class="star-ratings-sprite-rating"></span></div></td>
+                        <td>({{ suburb.rates_value['acc'] }} / 5.0 )</td>
+                    </tr>
+                    <tr>
+                        <td><h5>Life Style</h5></td>
+                        <td><div class="star-ratings-sprite"><span style="width:{{ suburb.rates['poi'] }}%" class="star-ratings-sprite-rating"></span></div></td>
+                        <td>({{ suburb.rates_value['poi'] }} / 5.0 )</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <p>Photo Section</p>
+                {% for img in suburb.images[:3] %}
+                <img src="{{ img }}" class="img-fluid" alt="Responsive image" style="width: 50%">
+                {% endfor %}
+            </div>
             <!--<p>From Wikipedia</p>-->
             <!--<p>{{suburb.wiki}}.</p>-->
             <div class="card">
                 <div class="card-title">From Wikipedia</div>
-                <div class="card-body">
-                    <p class="text-justify" style="word-break: break-all">{{suburb.wiki}}</p>
+                <div class="card-body" >
+                    {% for wiki in suburb.wiki %}
+                    {% if wiki.startswith('==') %}
+                    <p><h5>{{ wiki }}</h5></p>
+                    {% else %}
+                    <p style="word-wrap: break-word">{{ wiki }}</p>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div>
@@ -65,35 +129,71 @@
                     </a><div id="awtd1526997793562" class="aw-widget-36hour"  data-locationkey="22889" data-unit="f" data-language="en-us" data-useip="true" data-uid="awtd1526997793562" data-editlocation="true"></div><script type="text/javascript" src="https://oap.accuweather.com/launch.js"></script>
                 </div>
             </div>
-            <div>
-                <p>Photo Section</p>
-            </div>
             <!--<p>Crime stats goes here...</p>-->
         </div>
 
         <div id="crime" class="tab-pane fade" aria-labelledby="crime-tab">
             <h3 class="col-center-block">Crime</h3>
-            <p>Crime details goes here...</p>
-            {% if suburb.is_lga %}
-                <p>Showing data from {{ suburb.lga }}</p>
+{#            <p>Crime details goes here...</p>#}
+            {% if not suburb.is_lga %}
+                <p>{{ suburb.name }} is under {{ suburb.lga }} council...</p>
+                <p>Showing data from {{ suburb.lga }}...</p>
             {% endif %}
-            <p>{{suburb.crime_stats}}</p>
+{#            <p>{{suburb.crime_stats}}</p>#}
+            <h4>Summary</h4>
+            <p>The most frequent crime in this area is <b>{{ suburb.crime_stats['crime_type'] }}</b></p>
+            <h4>Trend (be careful of the rising crimes in this area)</h4>
+            {% if suburb.crime_stats['trend_24month_crime_type'] %}
+            <p>In the last 2 years, <b>{{ suburb.crime_stats['trend_24month_crime_type'] }}</b> is increasing most rapidly.</p>
+            {% else %}
+            <p>Sorry, no related data found from the source for the last 2 years trend.</p>
+            {% endif %}
+            {% if suburb.crime_stats['trend_60month_crime_type'] %}
+            <p>In the last 5 years, <b>{{ suburb.crime_stats['trend_60month_crime_type'] }}</b> is increasing most rapidly.</p>
+            {% else %}
+            <p>Sorry, no related data found from the source for the last 5 years trend.</p>
+            {% endif %}
         </div>
 
         <div id="acc" class="tab-pane fade" aria-labelledby="acc-tab">
             <h3 class="col-center-block">Accommodation</h3>
-            <p>Accommodation details goes here...</p>
+{#            <p>Accommodation details goes here...</p>#}
             {% if suburb.is_lga %}
                 <p>Showing data from {{ suburb.lga }}</p>
             {% endif %}
-            <p>{{suburb.acc_stats}}</p>
+            <img src="{{ url_for('app.send_figure', filename = suburb.acc_path) }}" class="img-fluid" alt="Responsive image" style="width: 50%; align-content: center">
+            <table>
+                <tr>
+                    <td>Type</td>
+                    <td>Average Rental</td>
+                </tr>
+                {% for e in suburb.acc_stats %}
+                <tr>
+                    <td>{{ e['type'] }}</td>
+                    <td>{{ e['average'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
 
         <div id="poi" class="tab-pane fade" aria-labelledby="poi-tab">
             <h3 class="col-center-block">Places of Interests (POIs)</h3>
-            <p>POI details goes here...</p>
-            <p>{{suburb.poi}}</p>
-            <p>Here's a button linked to Google Map</p>
+{#            <p>POI details goes here...</p>#}
+{#            <p>{{suburb.poi}}</p>#}
+{#            <p>Here's a button linked to Google Map</p>#}
+            <img src="{{ url_for('app.send_figure', filename = suburb.poi_path) }}" class="img-fluid" alt="Responsive image" style="width: 50%; align-content: center">
+            <table>
+                <tr>
+                    <td>POI Name</td>
+                    <td>POI Type</td>
+                </tr>
+                {% for poi in suburb.poi %}
+                    <tr>
+                        <td>{{ poi['name'] }} </td>
+                        <td><i>{{ poi['type'] }}</i></td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 </div>

@@ -4,16 +4,17 @@ Author: @TC
 Flask Application User Interface
 
 '''
+import os
 
-from flask import request, render_template, Flask, redirect, url_for, make_response
+from flask import request, render_template, Flask, redirect, url_for, send_from_directory
 from flask import Blueprint
 from flask_restful import reqparse
 # from app.glue import routes as glue_routes
 from app.models import Suburb
 import app.glue as glue
 # import flask_restful
-
-bp = Blueprint('app', __name__, url_prefix='')
+root = os.getcwd()
+bp = Blueprint('app', __name__, url_prefix='', static_folder='/templates/')
 # app = Flask(__name__)
 # app.register_blueprint(bp)
 
@@ -49,6 +50,7 @@ def search():
 
     # postcode = re.form.get("postcode")
     suburb_name = request.form.get('suburb')
+    suburb_name = suburb_name.replace('+', ' ')
     if not glue.check_input(suburb_name):
         # correction = glue.correct_input(suburb_name)
         return redirect(url_for('.suburb_not_found', origin=suburb_name))
@@ -70,3 +72,9 @@ def suburb_not_found():
     correction = glue.correct_input(origin)
 
     return render_template('app/suburb_not_found.html', origin=origin, correction=correction)
+
+
+@bp.route('/figures/<path:filename>', methods=['GET'])
+def send_figure(filename):
+    path = root + '/templates/static/figures'
+    return send_from_directory(path, filename)

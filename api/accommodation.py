@@ -130,8 +130,8 @@ def show_info(suburb):
     # connect(db='comp9321_ass3')
     info = []
     dewelling_type = ['Total','House','Townhouse','Flat/Unit']
-    for i in Accommodation.objects:
-        if i.suburb.lower() == suburb.lower() and i.dewelling_type in dewelling_type:
+    for i in Accommodation.objects(suburb=suburb):
+        if i.dewelling_type in dewelling_type:
             dewelling_type.remove(i.dewelling_type)
             spec_info = {}
             spec_info.update({'dewelling_type ':i.dewelling_type})

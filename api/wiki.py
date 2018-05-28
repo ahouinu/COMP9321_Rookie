@@ -6,6 +6,6 @@ def get_info(suburb):
     place_name = suburb+', New South Wales'
     p = wikipedia.page(place_name)
 
-    return p.content
+    return p
 
 # print(get_info('Kingsford'))

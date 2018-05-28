@@ -26,12 +26,16 @@ class Suburb():
         self.acc_stats = acc_stats
         self.poi = poi[0]
         self.poi_rate = poi[1]
-        self.wiki = wiki
+        self.wiki = wiki[0]
+        self.images = wiki[1]
         self._instances[name] = self
         self.rates = {}
         self.lga = None
         self.is_lga = False
         self.last_updated = datetime.now()
+        self.acc_path = None
+        self.poi_path = None
+        self.rates_value = {}
 
     @classmethod
     def get_instance(cls, suburb_name):
@@ -45,8 +49,14 @@ class Suburb():
                       'crime': crime_rate,
                       'acc': acc_rate,
                       'poi': poi_rate}
+        for key, value in self.rates.items():
+            self.rates_value[key] = f'{float(value) / 20.0 : .1f}'
 
     def set_lga(self, lga):
         self.lga = lga
         self.is_lga = \
             self.lga == self.name
+
+    def set_figure_paths(self, acc_path, poi_path):
+        self.acc_path = acc_path
+        self.poi_path = poi_path
