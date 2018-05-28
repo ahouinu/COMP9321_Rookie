@@ -19,8 +19,11 @@ def get_info(poi):
     geo_dic = {'x':x,'y':y}
 
     return geo_dic
+
+## can be used to generate a target url:
 # url = f'https://www.google.com.au/maps/search/{lat},{lng}'
 
-# print(url)
 
+## TEST
+# print(url)
 # print(get_info('KINGSFORD SMITH OVAL'))
